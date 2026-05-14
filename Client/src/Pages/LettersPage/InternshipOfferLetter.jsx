@@ -151,6 +151,12 @@ const InternshipOfferLetterPDF = ({ data, staticText, visibleSections }) => {
       <PageWithHeaderFooter>
         <Text style={ styles.title }>INTERNSHIP OFFER LETTER</Text>
 
+        { d.offerReleaseDate ? (
+          <Text style={ { fontSize: 11, marginBottom: 10 } }>
+            <Text style={ styles.bold }>Date: </Text>{ d.offerReleaseDate }
+          </Text>
+        ) : null }
+
         <View style={ styles.section }>
           <Text>To,</Text>
           <Text style={ styles.bold }>{ d.name }</Text>
@@ -414,20 +420,23 @@ const InternshipOfferLetter = () => {
   };
 
   const handlePrint = async () => {
+    const formatDate = (dateStr) =>
+      dateStr ? moment.tz(dateStr, 'YYYY-MM-DD', 'Asia/Kolkata').format('DD MMMM YYYY') : '';
+
     const data = {
       name: formData.name,
       address: formData.address,
       phoneNumber: formData.phoneNumber,
       email: formData.email,
-      startDate: formData.startDate,
-      endDate: formData.endDate,
+      startDate: formatDate(formData.startDate),
+      endDate: formatDate(formData.endDate),
       position: formData.position,
       stipend: formData.stipend,
       mentorName: formData.mentorName,
       mentorContact: formData.mentorContact,
       gender: formData.gender,
       signatory: formData.signatory,
-      offerReleaseDate: formData.offerReleaseDate,
+      offerReleaseDate: formatDate(formData.offerReleaseDate),
       termsAndConditions: formData.termsAndConditions,
     };
 
@@ -556,9 +565,6 @@ const InternshipOfferLetter = () => {
               <input type="text" name="mentorName" value={ formData.mentorName } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
             <div className="dg-form-group">
-
-            </div>
-            <div className="dg-form-group">
               <label className="dg-label">Offer Release Date</label>
               <input type="date" name="offerReleaseDate" value={ formData.offerReleaseDate } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
@@ -642,7 +648,7 @@ const InternshipOfferLetter = () => {
                   <p style={ { fontWeight: 700, fontSize: '1rem' } }>DOAGuru Infosystems</p>
                   <p style={ { fontSize: '0.8rem', color: '#555' } }>www.doaguru.com | info@doaguru.com | +91-7440992424</p>
                 </div>
-                <p style={ { marginBottom: '1rem' } }><strong>Date:</strong> { formData.offerReleaseDate ? moment.tz(formData.offerReleaseDate, 'Asia/Kolkata').format('DD MMMM YYYY') : moment().tz('Asia/Kolkata').format('DD MMMM YYYY') }</p>
+                <p style={ { marginBottom: '1rem' } }><strong>Date:</strong> { formData.offerReleaseDate ? moment.tz(formData.offerReleaseDate, 'YYYY-MM-DD', 'Asia/Kolkata').format('DD MMMM YYYY') : moment().tz('Asia/Kolkata').format('DD MMMM YYYY') }</p>
                 
                 <p><strong>To,</strong><br />{ formData.name }<br />{ formData.address }<br />{ formData.phoneNumber }<br />{ formData.email }</p>
                 <p style={ { marginTop: '1rem' } }><strong>{ renderStatic('subject') }</strong></p>
@@ -653,7 +659,7 @@ const InternshipOfferLetter = () => {
                   { renderSectionWrapper('duration', () => (
                     <>
                       <p style={ { fontWeight: 700 } }>{ getDomNum() }{ renderStatic('durationTitle') }</p>
-                      <p>{ renderStatic('durationText1') }<strong>{ formData.startDate ? moment.tz(formData.startDate, 'Asia/Kolkata').format('DD MMMM YYYY') : '' }</strong>{ renderStatic('durationText2') }<strong>{ formData.endDate ? moment.tz(formData.endDate, 'Asia/Kolkata').format('DD MMMM YYYY') : '' }</strong>.</p>
+                      <p>{ renderStatic('durationText1') }<strong>{ formData.startDate ? moment.tz(formData.startDate, 'YYYY-MM-DD', 'Asia/Kolkata').format('DD MMMM YYYY') : '' }</strong>{ renderStatic('durationText2') }<strong>{ formData.endDate ? moment.tz(formData.endDate, 'YYYY-MM-DD', 'Asia/Kolkata').format('DD MMMM YYYY') : '' }</strong>.</p>
                     </>
                   )) }
 
