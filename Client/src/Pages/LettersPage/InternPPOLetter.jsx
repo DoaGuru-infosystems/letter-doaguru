@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment-timezone';
 import {
   Document, Page, Text, View, StyleSheet, Image, pdf, Font,
 } from '@react-pdf/renderer';
@@ -151,7 +152,7 @@ const InternPPOLetter = () => {
     employeeName: '', employeeId: '', oldDesignation: '', newDesignation: '',
     newCTC: '', basicSalary: '', hra: '', allowances: '',
     joiningDate: '', acceptanceDate: '',
-    currentDate: new Date().toLocaleDateString('en-GB'),
+    currentDate: moment().tz('Asia/Kolkata').format('DD MMMM YYYY'),
     showSignature: true, gender: '', signatory: 'R.S. Pandey (CEO)'
   });
 
@@ -196,7 +197,7 @@ const InternPPOLetter = () => {
 
   const handleFormatDate = (dateStr) => {
     if (!dateStr) return '';
-    return new Date(dateStr).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    return moment.tz(dateStr, 'Asia/Kolkata').format('DD MMMM YYYY');
   };
 
   const handleStaticChange = (key, val) => setStaticText(prev => ({ ...prev, [key]: val }));

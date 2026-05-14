@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { IoMdArrowBack } from "react-icons/io";
 import axios from 'axios';
+import moment from 'moment-timezone';
 import CLogo from '../../assets/images/CLogo.png';
 import headerImg from '../../assets/images/NewHeaderImage.png';
 import footerImg from '../../assets/images/NewFotterImage.png';
@@ -287,7 +288,7 @@ const TerminationLetter = () => {
                 Email: info@doaguru.com<br />
                 Website: https://doaguru.com</p>
 
-              <p style={{ marginTop: '1rem' }}>Date: {new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+              <p style={{ marginTop: '1rem' }}>Date: {moment().tz('Asia/Kolkata').format('DD MMMM YYYY')}</p>
 
               <p style={{ marginTop: '1rem' }}>To,</p>
               <p style={{ fontWeight: 600 }}>
@@ -301,7 +302,7 @@ const TerminationLetter = () => {
               <p style={{ marginTop: '1rem' }}>{rs('greeting')} {employeeName || 'Employee'},</p>
 
               <p style={{ marginTop: '0.75rem' }}>
-                {rs('regretLine')} <strong>{designation || '[Designation]'}</strong> {rs('inDept')} <strong>{department || 'Development'}</strong> {rs('deptSuffix')} <strong>{terminationDate || '[Termination Date]'}</strong>.
+                {rs('regretLine')} <strong>{designation || '[Designation]'}</strong> {rs('inDept')} <strong>{department || 'Development'}</strong> {rs('deptSuffix')} <strong>{terminationDate ? moment.tz(terminationDate, 'Asia/Kolkata').format('DD MMMM YYYY') : '[Termination Date]'}</strong>.
               </p>
 
               <p style={{ marginTop: '0.75rem' }}>

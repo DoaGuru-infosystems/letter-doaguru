@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment-timezone';
 import {
   Document, Page, Text, View, StyleSheet, Image, Link, pdf, Font,
 } from '@react-pdf/renderer';
@@ -457,14 +458,14 @@ const OfferLater = () => {
                   <p style={{ fontWeight: 700, fontSize: '1rem' }}>DOAGuru Infosystems</p>
                   <p style={{ fontSize: '0.8rem', color: '#555' }}>www.doaguru.com | info@doaguru.com | +91-7440992424</p>
                 </div>
-                <p style={{ marginBottom: '1rem' }}><strong>Date:</strong> {offerReleaseDate}</p>
+                <p style={{ marginBottom: '1rem' }}><strong>Date:</strong> {offerReleaseDate ? moment.tz(offerReleaseDate, 'Asia/Kolkata').format('DD MMMM YYYY') : moment().tz('Asia/Kolkata').format('DD MMMM YYYY')}</p>
                 <p><strong>{rs('toLabel')}</strong><br />{name}<br />{address}<br />{phoneNumber}<br />{email}</p>
                 <p style={{ marginTop: '1rem', fontWeight: 700 }}>{rs('subject')}</p>
                 <p style={{ marginTop: '0.5rem' }}>{rs('dear')} {name},</p>
                 <p>{rs('openingLine')} <strong>{position}</strong> {rs('atCompany')}</p>
                 <div style={{ marginTop: '1.5rem' }}>
                   <div style={{ marginBottom: '1rem' }}><p style={{ fontWeight: 700 }}>{rs('s1Title')}</p><p>{rs('s1Line1')} {position}{rs('s1Line2')}</p></div>
-                  <div style={{ marginBottom: '1rem' }}><p style={{ fontWeight: 700 }}>{rs('s2Title')}</p><p>{rs('s2Line1')} {date}{rs('s2Line2')}</p></div>
+                  <div style={{ marginBottom: '1rem' }}><p style={{ fontWeight: 700 }}>{rs('s2Title')}</p><p>{rs('s2Line1')} <strong>{date ? moment.tz(date, 'Asia/Kolkata').format('DD MMMM YYYY') : ''}</strong>{rs('s2Line2')}</p></div>
                   <div style={{ marginBottom: '1rem' }}><p style={{ fontWeight: 700 }}>{rs('s3Title')}</p><p>{rs('s3Line1')}</p></div>
                   <div style={{ marginBottom: '1rem' }}><p style={{ fontWeight: 700 }}>{rs('s4Title')}</p><p>{rs('s4Line1')}</p></div>
                   <div style={{ marginBottom: '1rem' }}><p style={{ fontWeight: 700 }}>{rs('s5Title')}</p><p>• {rs('s5Line1')} ₹{salary} {rs('s5Line2')}</p>{(isContentEditMode || staticText.s5Line3?.trim()) && <p>• {rs('s5Line3')}</p>}{(isContentEditMode || staticText.s5Line4?.trim()) && <p>• {rs('s5Line4')}</p>}</div>

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
+import moment from 'moment-timezone';
 import CLogo from '../../assets/images/CLogo.png';
 import headerImg from '../../assets/images/NewHeaderImage.png';
 import footerImg from '../../assets/images/NewFotterImage.png';
@@ -294,16 +295,16 @@ const RelievingLetter = () => {
               Email: info@doaguru.com<br />
               Website: <a href="https://doaguru.com" style={{ color: '#2563eb' }}>https://doaguru.com</a></p>
 
-            <p style={{ marginTop: '1rem' }}>Date: {new Date().toLocaleDateString('en-GB')}</p>
+            <p style={{ marginTop: '1rem' }}>Date: {moment().tz('Asia/Kolkata').format('DD MMMM YYYY')}</p>
 
             <p style={{ marginTop: '1.5rem' }}>{rs('salutation')}</p>
 
             <p style={{ marginTop: '1rem' }}>
-              {rs('certifyText')} <strong>{employeeName || '[Employee Name]'}</strong> {rs('wasEmployed')} <strong>{department || '[Department]'}</strong> {rs('departmentLabel')} <strong>{designation || '[Designation]'}</strong> {rs('fromText')} <strong>{dateOfJoining || '[Date of Joining]'}</strong> {rs('toText')} <strong>{dateOfRelieving || '[Date of Relieving]'}</strong>.
+              {rs('certifyText')} <strong>{employeeName || '[Employee Name]'}</strong> {rs('wasEmployed')} <strong>{department || '[Department]'}</strong> {rs('departmentLabel')} <strong>{designation || '[Designation]'}</strong> {rs('fromText')} <strong>{dateOfJoining ? moment.tz(dateOfJoining, 'Asia/Kolkata').format('DD MMMM YYYY') : '[Date of Joining]'}</strong> {rs('toText')} <strong>{dateOfRelieving ? moment.tz(dateOfRelieving, 'Asia/Kolkata').format('DD MMMM YYYY') : '[Date of Relieving]'}</strong>.
             </p>
 
             <p style={{ marginTop: '1rem' }}>
-              {rs('tenureIntro')} {pr_their} {rs('tenureDesc')} {pr_them} {rs('tenureQualities')} {pr_their} {rs('responsibilities')} {pr_he} {rs('completedText')} {pr_them} {rs('dutiesText')} {pr_their} {rs('dutiesEnd')} <strong>{lastWorkingDay || '[Last Working Day]'}</strong>.
+              {rs('tenureIntro')} {pr_their} {rs('tenureDesc')} {pr_them} {rs('tenureQualities')} {pr_their} {rs('responsibilities')} {pr_he} {rs('completedText')} {pr_them} {rs('dutiesText')} {pr_their} {rs('dutiesEnd')} <strong>{lastWorkingDay ? moment.tz(lastWorkingDay, 'Asia/Kolkata').format('DD MMMM YYYY') : '[Last Working Day]'}</strong>.
             </p>
 
             <p style={{ marginTop: '1rem' }}>

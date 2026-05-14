@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment-timezone';
 import {
   Document, Page, Text, View, StyleSheet, Image, pdf, Font,
 } from '@react-pdf/renderer';
@@ -111,7 +112,7 @@ const InternExperienceLetter = () => {
   const [formData, setFormData] = useState({
     employeeName: '', employeeId: '', designation: '', department: '',
     startDate: '', endDate: '', gender: '',
-    currentDate: new Date().toLocaleDateString('en-GB'),
+    currentDate: moment().tz('Asia/Kolkata').format('DD MMMM YYYY'),
     showSignature: true, signatory: 'R.S. Pandey (CEO)'
   });
 
@@ -158,7 +159,7 @@ const InternExperienceLetter = () => {
 
   const handleFormatDate = (dateStr) => {
     if (!dateStr) return '';
-    return new Date(dateStr).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    return moment.tz(dateStr, 'Asia/Kolkata').format('DD MMMM YYYY');
   };
 
   const handleStaticChange = (key, val) => setStaticText(prev => ({ ...prev, [key]: val }));

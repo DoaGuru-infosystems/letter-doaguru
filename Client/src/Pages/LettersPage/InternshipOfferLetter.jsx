@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
+import moment from 'moment-timezone';
 import {
   Document,
   Page,
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 80,
-    
+
   },
   footerWrap: {
     position: 'absolute',
@@ -132,132 +133,132 @@ const InternshipOfferLetterPDF = ({ data, staticText, visibleSections }) => {
   const getSubNum = () => `${sectionCounter - 1}.1 `;
 
   const PageWithHeaderFooter = ({ children }) => (
-    <Page size="A4" style={styles.page}>
-      {/* Use fixed containers so header/footer never interfere with layout */}
-      <View fixed style={styles.headerWrap}>
-        <Image src={headerImg} style={styles.headerImg} />
+    <Page size="A4" style={ styles.page }>
+      {/* Use fixed containers so header/footer never interfere with layout */ }
+      <View fixed style={ styles.headerWrap }>
+        <Image src={ headerImg } style={ styles.headerImg } />
       </View>
-      <View fixed style={styles.footerWrap}>
-        <Image src={footerImg} style={styles.footerImg} />
+      <View fixed style={ styles.footerWrap }>
+        <Image src={ footerImg } style={ styles.footerImg } />
       </View>
-      <View style={styles.content}>{children}</View>
+      <View style={ styles.content }>{ children }</View>
     </Page>
   );
 
   return (
     <Document>
-      {/* Page 1 - Internship Offer Details */}
+      {/* Page 1 - Internship Offer Details */ }
       <PageWithHeaderFooter>
-        <Text style={styles.title}>INTERNSHIP OFFER LETTER</Text>
+        <Text style={ styles.title }>INTERNSHIP OFFER LETTER</Text>
 
-        <View style={styles.section}>
+        <View style={ styles.section }>
           <Text>To,</Text>
-          <Text style={styles.bold}>{d.name}</Text>
-          <Text style={styles.bold}>{d.address}</Text>
-          <Text style={styles.bold}>{d.phoneNumber}</Text>
-          {/* Render email safely and make it a mailto Link (no wrapping issues) */}
-          {d.email ? (
-            <Link src={`mailto:${d.email}`} style={styles.bold}>
-              {d.email}
+          <Text style={ styles.bold }>{ d.name }</Text>
+          <Text style={ styles.bold }>{ d.address }</Text>
+          <Text style={ styles.bold }>{ d.phoneNumber }</Text>
+          {/* Render email safely and make it a mailto Link (no wrapping issues) */ }
+          { d.email ? (
+            <Link src={ `mailto:${d.email}` } style={ styles.bold }>
+              { d.email }
             </Link>
           ) : (
-            <Text style={styles.bold}> </Text>
-          )}
+            <Text style={ styles.bold }> </Text>
+          ) }
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{staticText.subject}</Text>
-          <Text>{staticText.greeting}{d.name},</Text>
+        <View style={ styles.section }>
+          <Text style={ styles.sectionTitle }>{ staticText.subject }</Text>
+          <Text>{ staticText.greeting }{ d.name },</Text>
           <Text>
-            {staticText.intro}<Text style={styles.strong}>{d.position}</Text>
+            { staticText.intro }<Text style={ styles.strong }>{ d.position }</Text>
           </Text>
         </View>
 
-        {visibleSections.duration && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{getNum()}{staticText.durationTitle}</Text>
+        { visibleSections.duration && (
+          <View style={ styles.section }>
+            <Text style={ styles.sectionTitle }>{ getNum() }{ staticText.durationTitle }</Text>
             <Text>
-              {staticText.durationText1}<Text style={styles.strong}>{d.startDate}</Text>{staticText.durationText2}<Text style={styles.strong}>{d.endDate}</Text>.
+              { staticText.durationText1 }<Text style={ styles.strong }>{ d.startDate }</Text>{ staticText.durationText2 }<Text style={ styles.strong }>{ d.endDate }</Text>.
             </Text>
           </View>
-        )}
+        ) }
 
-        {visibleSections.pos && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{getNum()}{staticText.posTitle}</Text>
+        { visibleSections.pos && (
+          <View style={ styles.section }>
+            <Text style={ styles.sectionTitle }>{ getNum() }{ staticText.posTitle }</Text>
             <Text>
-              {staticText.posText1}<Text style={styles.strong}>{d.position}</Text>{staticText.posText2}
+              { staticText.posText1 }<Text style={ styles.strong }>{ d.position }</Text>{ staticText.posText2 }
             </Text>
-            {visibleSections.perf && (
+            { visibleSections.perf && (
               <>
-                <Text style={[styles.sectionTitle, { marginTop: 10, fontSize: 12 }]}>{getSubNum()}{staticText.perfTitle}</Text>
+                <Text style={ [styles.sectionTitle, { marginTop: 10, fontSize: 12 }] }>{ getSubNum() }{ staticText.perfTitle }</Text>
                 <Text>
-                  {staticText.perfText1}<Text style={styles.strong}>{d.name}</Text>{staticText.perfText2}{pronouns.possessive}{staticText.perfText3}
+                  { staticText.perfText1 }<Text style={ styles.strong }>{ d.name }</Text>{ staticText.perfText2 }{ pronouns.possessive }{ staticText.perfText3 }
                 </Text>
               </>
-            )}
+            ) }
           </View>
-        )}
+        ) }
 
-        {visibleSections.stipend && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{getNum()}{staticText.stipendTitle}</Text>
+        { visibleSections.stipend && (
+          <View style={ styles.section }>
+            <Text style={ styles.sectionTitle }>{ getNum() }{ staticText.stipendTitle }</Text>
             <Text>
-              {staticText.stipendText1}<Text style={styles.strong}>{d.stipend}</Text>.
+              { staticText.stipendText1 }<Text style={ styles.strong }>{ d.stipend }</Text>.
             </Text>
           </View>
-        )}
+        ) }
 
-        {visibleSections.mentor && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{getNum()}{staticText.mentorTitle}</Text>
+        { visibleSections.mentor && (
+          <View style={ styles.section }>
+            <Text style={ styles.sectionTitle }>{ getNum() }{ staticText.mentorTitle }</Text>
             <Text>
-              {staticText.mentorText1}<Text style={styles.strong}>{d.mentorName}</Text> ({d.mentorContact}).
+              { staticText.mentorText1 }<Text style={ styles.strong }>{ d.mentorName }</Text> ({ d.mentorContact }).
             </Text>
           </View>
-        )}
+        ) }
 
-        {visibleSections.work && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{getNum()}{staticText.workTitle}</Text>
-            <Text>{staticText.workText1}</Text>
+        { visibleSections.work && (
+          <View style={ styles.section }>
+            <Text style={ styles.sectionTitle }>{ getNum() }{ staticText.workTitle }</Text>
+            <Text>{ staticText.workText1 }</Text>
           </View>
-        )}
+        ) }
 
-        {visibleSections.place && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{getNum()}{staticText.placeTitle}</Text>
-            <Text>{staticText.placeText1}</Text>
+        { visibleSections.place && (
+          <View style={ styles.section }>
+            <Text style={ styles.sectionTitle }>{ getNum() }{ staticText.placeTitle }</Text>
+            <Text>{ staticText.placeText1 }</Text>
           </View>
-        )}
+        ) }
 
-        {visibleSections.terms && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>{getNum()}{staticText.termsTitle}</Text>
-            {d.termsAndConditions.map((term, index) => (
-              <View key={index} style={styles.listItem}>
-                <Text style={styles.bullet}>{index + 1}.</Text>
-                <Text>{term}</Text>
+        { visibleSections.terms && (
+          <View style={ styles.section }>
+            <Text style={ styles.sectionTitle }>{ getNum() }{ staticText.termsTitle }</Text>
+            { d.termsAndConditions.map((term, index) => (
+              <View key={ index } style={ styles.listItem }>
+                <Text style={ styles.bullet }>{ index + 1 }.</Text>
+                <Text>{ term }</Text>
               </View>
-            ))}
+            )) }
           </View>
-        )}
+        ) }
 
-        <View style={styles.section}>
-          <Text>{staticText.outro}</Text>
+        <View style={ styles.section }>
+          <Text>{ staticText.outro }</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.strong}>Warm Regards,</Text>
-          <Image src={imgS} style={styles.signature} />
-          <Text>{signatoryDetails.name}</Text>
-          <Text>{signatoryDetails.title}</Text>
+        <View style={ styles.section }>
+          <Text style={ styles.strong }>Warm Regards,</Text>
+          <Image src={ imgS } style={ styles.signature } />
+          <Text>{ signatoryDetails.name }</Text>
+          <Text>{ signatoryDetails.title }</Text>
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Acknowledgment:</Text>
-          <Text>I, {d.name}, accept the above terms and conditions of internship.</Text>
-          <View style={{ marginTop: 30 }}>
+        <View style={ styles.section }>
+          <Text style={ styles.sectionTitle }>Acknowledgment:</Text>
+          <Text>I, { d.name }, accept the above terms and conditions of internship.</Text>
+          <View style={ { marginTop: 30 } }>
             <Text>Signature: ___________________</Text>
             <Text>Date: ________________</Text>
           </View>
@@ -322,7 +323,7 @@ const InternshipOfferLetter = () => {
     ackText: 'I, ',
     ackText2: ', accept the above terms and conditions of internship.'
   });
-  
+
   const [visibleSections, setVisibleSections] = useState({
     duration: true,
     pos: true,
@@ -337,7 +338,7 @@ const InternshipOfferLetter = () => {
   const toggleSection = (key) => {
     setVisibleSections(prev => ({ ...prev, [key]: !prev[key] }));
   };
-  
+
   const previewRef = useRef();
 
   const handleStaticChange = (key, value) => {
@@ -345,20 +346,20 @@ const InternshipOfferLetter = () => {
   };
 
   const renderStatic = (key, isBlock = false) => (
-    <span 
-      contentEditable={isEditMode} 
-      suppressContentEditableWarning 
-      onBlur={(e) => handleStaticChange(key, e.currentTarget.textContent)} 
-      style={{ 
-        outline: isEditMode ? '1px dashed #3b82f6' : 'none', 
-        padding: isEditMode ? '2px' : 0, 
-        borderRadius: '2px', 
-        backgroundColor: isEditMode ? 'rgba(59, 130, 246, 0.05)' : 'transparent', 
-        display: isBlock ? 'block' : 'inline', 
-        minWidth: isEditMode ? '20px' : 'auto' 
-      }}
+    <span
+      contentEditable={ isEditMode }
+      suppressContentEditableWarning
+      onBlur={ (e) => handleStaticChange(key, e.currentTarget.textContent) }
+      style={ {
+        outline: isEditMode ? '1px dashed #3b82f6' : 'none',
+        padding: isEditMode ? '2px' : 0,
+        borderRadius: '2px',
+        backgroundColor: isEditMode ? 'rgba(59, 130, 246, 0.05)' : 'transparent',
+        display: isBlock ? 'block' : 'inline',
+        minWidth: isEditMode ? '20px' : 'auto'
+      } }
     >
-      {staticText[key]}
+      { staticText[key] }
     </span>
   );
 
@@ -433,7 +434,7 @@ const InternshipOfferLetter = () => {
     try {
       // Build the PDF instance explicitly to avoid any race conditions
       const instance = pdf();
-      instance.updateContainer(<InternshipOfferLetterPDF data={data} staticText={staticText} visibleSections={visibleSections} />);
+      instance.updateContainer(<InternshipOfferLetterPDF data={ data } staticText={ staticText } visibleSections={ visibleSections } />);
       const blob = await instance.toBlob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -459,17 +460,17 @@ const InternshipOfferLetter = () => {
   const renderSectionWrapper = (key, content) => {
     if (!visibleSections[key] && !isEditMode) return null;
     return (
-      <div style={{ marginBottom: '1rem', position: 'relative', opacity: visibleSections[key] ? 1 : 0.4, transition: 'opacity 0.2s' }}>
-        {isEditMode && (
-           <button 
-             onClick={() => toggleSection(key)} 
-             style={{ position: 'absolute', right: 0, top: 0, padding: '2px 8px', fontSize: '10px', background: visibleSections[key] ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)', color: visibleSections[key] ? '#ef4444' : '#10b981', border: `1px solid ${visibleSections[key] ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`, borderRadius: '4px', cursor: 'pointer', zIndex: 10 }}
-           >
-             {visibleSections[key] ? '× Remove' : '+ Restore'}
-           </button>
-        )}
-        <div style={{ pointerEvents: visibleSections[key] ? 'auto' : 'none' }}>
-          {content()}
+      <div style={ { marginBottom: '1rem', position: 'relative', opacity: visibleSections[key] ? 1 : 0.4, transition: 'opacity 0.2s' } }>
+        { isEditMode && (
+          <button
+            onClick={ () => toggleSection(key) }
+            style={ { position: 'absolute', right: 0, top: 0, padding: '2px 8px', fontSize: '10px', background: visibleSections[key] ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)', color: visibleSections[key] ? '#ef4444' : '#10b981', border: `1px solid ${visibleSections[key] ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`, borderRadius: '4px', cursor: 'pointer', zIndex: 10 } }
+          >
+            { visibleSections[key] ? '× Remove' : '+ Restore' }
+          </button>
+        ) }
+        <div style={ { pointerEvents: visibleSections[key] ? 'auto' : 'none' } }>
+          { content() }
         </div>
       </div>
     );
@@ -477,39 +478,39 @@ const InternshipOfferLetter = () => {
 
   return (
     <div className="dg-page-container">
-      {/* Page Header */}
+      {/* Page Header */ }
       <div className="dg-page-header">
         <span className="dg-page-tag">Internship</span>
         <h1 className="dg-page-title">Generate Internship Offer Letter</h1>
       </div>
 
       <div className="dg-form-card">
-        {/* Top action bar */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.75rem', paddingBottom: '1.25rem', borderBottom: '1px solid var(--border-subtle)', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+        {/* Top action bar */ }
+        <div style={ { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.75rem', paddingBottom: '1.25rem', borderBottom: '1px solid var(--border-subtle)', flexWrap: 'wrap', gap: '0.75rem' } }>
+          <p style={ { fontSize: '0.875rem', color: 'var(--text-secondary)' } }>
             Fill in the intern details to generate the offer letter
           </p>
         </div>
 
-        {/* Section: Intern Info */}
+        {/* Section: Intern Info */ }
         <div className="dg-form-section">
           <p className="dg-form-section-title">Candidate Information</p>
           <div className="dg-form-grid">
             <div className="dg-form-group">
               <label className="dg-label">Candidate Name</label>
-              <input type="text" name="name" value={formData.name} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} required />
+              <input type="text" name="name" value={ formData.name } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
             <div className="dg-form-group">
               <label className="dg-label">Contact Number</label>
-              <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} required />
+              <input type="text" name="phoneNumber" value={ formData.phoneNumber } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
             <div className="dg-form-group">
               <label className="dg-label">Email</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} required />
+              <input type="email" name="email" value={ formData.email } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
             <div className="dg-form-group">
               <label className="dg-label">Gender</label>
-              <select name="gender" value={formData.gender} onChange={handleChange} className="dg-select" required>
+              <select name="gender" value={ formData.gender } onChange={ handleChange } className="dg-select" required>
                 <option value="">Select Gender</option>
                 <option value="He">Male (He/Him)</option>
                 <option value="She">Female (She/Her)</option>
@@ -517,54 +518,53 @@ const InternshipOfferLetter = () => {
               </select>
             </div>
           </div>
-          <div className="dg-form-group" style={{ marginTop: '1rem' }}>
+          <div className="dg-form-group" style={ { marginTop: '1rem' } }>
             <label className="dg-label">Address</label>
-            <textarea name="address" value={formData.address} onChange={handleChange} className="dg-textarea" rows="3" required></textarea>
+            <textarea name="address" value={ formData.address } onChange={ handleChange } className="dg-textarea" rows="3" required></textarea>
           </div>
         </div>
 
-        {/* Section: Internship Details */}
+        {/* Section: Internship Details */ }
         <div className="dg-form-section">
           <p className="dg-form-section-title">Internship Details</p>
           <div className="dg-form-grid">
             <div className="dg-form-group">
               <label className="dg-label">Position</label>
-              <input type="text" name="position" value={formData.position} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} required />
+              <input type="text" name="position" value={ formData.position } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
             <div className="dg-form-group">
               <label className="dg-label">Monthly Stipend</label>
-              <input type="text" name="stipend" value={formData.stipend} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} placeholder="e.g., Rs. 5000" required />
+              <input type="text" name="stipend" value={ formData.stipend } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } placeholder="e.g., Rs. 5000" required />
             </div>
             <div className="dg-form-group">
               <label className="dg-label">Start Date</label>
-              <input type="date" name="startDate" value={formData.startDate} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} required />
+              <input type="date" name="startDate" value={ formData.startDate } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
             <div className="dg-form-group">
               <label className="dg-label">End Date</label>
-              <input type="date" name="endDate" value={formData.endDate} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} required />
+              <input type="date" name="endDate" value={ formData.endDate } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
           </div>
         </div>
 
-        {/* Section: Mentor & Misc */}
+        {/* Section: Mentor & Misc */ }
         <div className="dg-form-section">
           <p className="dg-form-section-title">Mentor & Issuance</p>
           <div className="dg-form-grid">
             <div className="dg-form-group">
               <label className="dg-label">Mentor's Name</label>
-              <input type="text" name="mentorName" value={formData.mentorName} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} required />
+              <input type="text" name="mentorName" value={ formData.mentorName } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
             <div className="dg-form-group">
-              <label className="dg-label">Mentor's Contact</label>
-              <input type="text" name="mentorContact" value={formData.mentorContact} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} required />
+
             </div>
             <div className="dg-form-group">
               <label className="dg-label">Offer Release Date</label>
-              <input type="date" name="offerReleaseDate" value={formData.offerReleaseDate} onChange={handleChange} className="dg-input" style={{ paddingLeft: '1rem' }} required />
+              <input type="date" name="offerReleaseDate" value={ formData.offerReleaseDate } onChange={ handleChange } className="dg-input" style={ { paddingLeft: '1rem' } } required />
             </div>
             <div className="dg-form-group">
               <label className="dg-label">Signatory</label>
-              <select name="signatory" value={formData.signatory} onChange={handleChange} className="dg-select" required>
+              <select name="signatory" value={ formData.signatory } onChange={ handleChange } className="dg-select" required>
                 <option value="R.S. Pandey (CEO)">R.S. Pandey (CEO)</option>
                 <option value="HR Manager">HR Manager</option>
               </select>
@@ -572,151 +572,152 @@ const InternshipOfferLetter = () => {
           </div>
         </div>
 
-        {/* Section: Terms and Conditions */}
+        {/* Section: Terms and Conditions */ }
         <div className="dg-form-section">
           <p className="dg-form-section-title">Terms & Conditions</p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
-            {formData.termsAndConditions.map((term, index) => (
-              <div key={index} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                <span style={{ color: 'var(--primary-light)', fontWeight: 700, fontSize: '0.875rem', minWidth: '1.5rem', textAlign: 'center' }}>
-                  {index + 1}.
+          <div style={ { display: 'flex', flexDirection: 'column', gap: '0.625rem' } }>
+            { formData.termsAndConditions.map((term, index) => (
+              <div key={ index } style={ { display: 'flex', gap: '0.5rem', alignItems: 'center' } }>
+                <span style={ { color: 'var(--primary-light)', fontWeight: 700, fontSize: '0.875rem', minWidth: '1.5rem', textAlign: 'center' } }>
+                  { index + 1 }.
                 </span>
                 <input
                   type="text"
-                  value={term}
-                  onChange={(e) => handleTermChange(index, e.target.value)}
+                  value={ term }
+                  onChange={ (e) => handleTermChange(index, e.target.value) }
                   className="dg-input"
-                  style={{ paddingLeft: '1rem', flex: 1 }}
+                  style={ { paddingLeft: '1rem', flex: 1 } }
                   required
                 />
               </div>
-            ))}
+            )) }
           </div>
           <button
             type="button"
-            onClick={addTerm}
-            style={{ marginTop: '0.875rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.5rem 1rem', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', borderRadius: '8px', color: '#10b981', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 600, transition: 'all 0.2s' }}
-            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(16,185,129,0.18)'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(16,185,129,0.1)'}
+            onClick={ addTerm }
+            style={ { marginTop: '0.875rem', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.5rem 1rem', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', borderRadius: '8px', color: '#10b981', cursor: 'pointer', fontSize: '0.875rem', fontWeight: 600, transition: 'all 0.2s' } }
+            onMouseEnter={ (e) => e.currentTarget.style.background = 'rgba(16,185,129,0.18)' }
+            onMouseLeave={ (e) => e.currentTarget.style.background = 'rgba(16,185,129,0.1)' }
           >
             + Add Term
           </button>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons */ }
         <div className="dg-form-actions">
-          <button type="button" onClick={handleSubmit} className="dg-btn-secondary">
+          <button type="button" onClick={ handleSubmit } className="dg-btn-secondary">
             Preview Letter
           </button>
         </div>
       </div>
 
-      {/* Preview Modal */}
-      {isModalOpen && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
-          <div style={{ background: '#1a1a2e', border: '1px solid var(--border-medium)', borderRadius: '16px', width: '95vw', maxWidth: '900px', height: '92vh', display: 'flex', flexDirection: 'column', boxShadow: '0 24px 80px rgba(0,0,0,0.6)', animation: 'fadeInUp 0.3s ease' }}>
-            {/* Modal Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--border-subtle)' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>Internship Offer Preview — {formData.name || 'Candidate'}</h3>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <button onClick={() => setIsEditMode(!isEditMode)} style={{ padding: '0.5rem 1rem', background: isEditMode ? 'linear-gradient(135deg,#f59e0b,#d97706)' : 'linear-gradient(135deg,#3b82f6,#2563eb)', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
-                  {isEditMode ? 'Save Content' : 'Edit Content'}
+      {/* Preview Modal */ }
+      { isModalOpen && (
+        <div style={ { position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' } }>
+          <div style={ { background: '#1a1a2e', border: '1px solid var(--border-medium)', borderRadius: '16px', width: '95vw', maxWidth: '900px', height: '92vh', display: 'flex', flexDirection: 'column', boxShadow: '0 24px 80px rgba(0,0,0,0.6)', animation: 'fadeInUp 0.3s ease' } }>
+            {/* Modal Header */ }
+            <div style={ { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1.25rem 1.5rem', borderBottom: '1px solid var(--border-subtle)' } }>
+              <h3 style={ { fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' } }>Internship Offer Preview — { formData.name || 'Candidate' }</h3>
+              <div style={ { display: 'flex', gap: '0.5rem' } }>
+                <button onClick={ () => setIsEditMode(!isEditMode) } style={ { padding: '0.5rem 1rem', background: isEditMode ? 'linear-gradient(135deg,#f59e0b,#d97706)' : 'linear-gradient(135deg,#3b82f6,#2563eb)', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 } }>
+                  { isEditMode ? 'Save Content' : 'Edit Content' }
                 </button>
-                <button onClick={handlePrint} style={{ padding: '0.5rem 1rem', background: 'linear-gradient(135deg,#10b981,#059669)', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
+                <button onClick={ handlePrint } style={ { padding: '0.5rem 1rem', background: 'linear-gradient(135deg,#10b981,#059669)', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 } }>
                   Download PDF
                 </button>
-                <button onClick={handleSaveInfo} style={{ padding: '0.5rem 1rem', background: 'linear-gradient(135deg,#6366f1,#4f46e5)', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
+                <button onClick={ handleSaveInfo } style={ { padding: '0.5rem 1rem', background: 'linear-gradient(135deg,#6366f1,#4f46e5)', border: 'none', borderRadius: '8px', color: 'white', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 } }>
                   Save & Print
                 </button>
-                <button onClick={closeModal} style={{ padding: '0.5rem 0.875rem', background: 'rgba(244,63,94,0.1)', border: '1px solid rgba(244,63,94,0.3)', borderRadius: '8px', color: '#f43f5e', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 }}>
+                <button onClick={ closeModal } style={ { padding: '0.5rem 0.875rem', background: 'rgba(244,63,94,0.1)', border: '1px solid rgba(244,63,94,0.3)', borderRadius: '8px', color: '#f43f5e', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600 } }>
                   Close
                 </button>
               </div>
             </div>
 
-            {/* Modal Body: Printed White Theme for PDF */}
-            <div ref={previewRef} style={{ flex: 1, overflowY: 'auto', padding: '2rem', background: '#f8f9fa' }}>
-              <div style={{ maxWidth: '720px', margin: '0 auto', background: 'white', borderRadius: '8px', padding: '3rem', boxShadow: '0 4px 20px rgba(0,0,0,0.15)', color: '#1a1a1a', fontSize: '0.9rem', lineHeight: 1.7 }}>
-                <h1 style={{ textAlign: 'center', fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>INTERNSHIP OFFER LETTER</h1>
-                <div style={{ borderBottom: '2px solid #6366f1', marginBottom: '1rem', paddingBottom: '0.75rem' }}>
-                  <p style={{ fontWeight: 700, fontSize: '1rem' }}>DOAGuru Infosystems</p>
-                  <p style={{ fontSize: '0.8rem', color: '#555' }}>www.doaguru.com | info@doaguru.com | +91-7440992424</p>
+            {/* Modal Body: Printed White Theme for PDF */ }
+            <div ref={ previewRef } style={ { flex: 1, overflowY: 'auto', padding: '2rem', background: '#f8f9fa' } }>
+              <div style={ { maxWidth: '720px', margin: '0 auto', background: 'white', borderRadius: '8px', padding: '3rem', boxShadow: '0 4px 20px rgba(0,0,0,0.15)', color: '#1a1a1a', fontSize: '0.9rem', lineHeight: 1.7 } }>
+                <h1 style={ { textAlign: 'center', fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.1em' } }>INTERNSHIP OFFER LETTER</h1>
+                <div style={ { borderBottom: '2px solid #6366f1', marginBottom: '1rem', paddingBottom: '0.75rem' } }>
+                  <p style={ { fontWeight: 700, fontSize: '1rem' } }>DOAGuru Infosystems</p>
+                  <p style={ { fontSize: '0.8rem', color: '#555' } }>www.doaguru.com | info@doaguru.com | +91-7440992424</p>
                 </div>
-                <p style={{ marginBottom: '1rem' }}><strong>Date:</strong> {formData.offerReleaseDate || new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
-                <p><strong>To,</strong><br />{formData.name}<br />{formData.address}<br />{formData.phoneNumber}<br />{formData.email}</p>
-                <p style={{ marginTop: '1rem' }}><strong>{renderStatic('subject')}</strong></p>
-                <p style={{ marginTop: '0.5rem' }}>{renderStatic('greeting')}{formData.name},</p>
-                <p>{renderStatic('intro')}<strong>{formData.position}</strong></p>
+                <p style={ { marginBottom: '1rem' } }><strong>Date:</strong> { formData.offerReleaseDate ? moment.tz(formData.offerReleaseDate, 'Asia/Kolkata').format('DD MMMM YYYY') : moment().tz('Asia/Kolkata').format('DD MMMM YYYY') }</p>
                 
-                <div style={{ marginTop: '1.5rem' }}>
-                  {renderSectionWrapper('duration', () => (
+                <p><strong>To,</strong><br />{ formData.name }<br />{ formData.address }<br />{ formData.phoneNumber }<br />{ formData.email }</p>
+                <p style={ { marginTop: '1rem' } }><strong>{ renderStatic('subject') }</strong></p>
+                <p style={ { marginTop: '0.5rem' } }>{ renderStatic('greeting') }{ formData.name },</p>
+                <p>{ renderStatic('intro') }<strong>{ formData.position }</strong></p>
+
+                <div style={ { marginTop: '1.5rem' } }>
+                  { renderSectionWrapper('duration', () => (
                     <>
-                      <p style={{ fontWeight: 700 }}>{getDomNum()}{renderStatic('durationTitle')}</p>
-                      <p>{renderStatic('durationText1')}<strong>{formData.startDate}</strong>{renderStatic('durationText2')}<strong>{formData.endDate}</strong>.</p>
+                      <p style={ { fontWeight: 700 } }>{ getDomNum() }{ renderStatic('durationTitle') }</p>
+                      <p>{ renderStatic('durationText1') }<strong>{ formData.startDate ? moment.tz(formData.startDate, 'Asia/Kolkata').format('DD MMMM YYYY') : '' }</strong>{ renderStatic('durationText2') }<strong>{ formData.endDate ? moment.tz(formData.endDate, 'Asia/Kolkata').format('DD MMMM YYYY') : '' }</strong>.</p>
                     </>
-                  ))}
-                  
-                  {renderSectionWrapper('pos', () => (
+                  )) }
+
+                  { renderSectionWrapper('pos', () => (
                     <>
-                      <p style={{ fontWeight: 700 }}>{getDomNum()}{renderStatic('posTitle')}</p>
-                      <p>{renderStatic('posText1')}<strong>{formData.position}</strong>{renderStatic('posText2')}</p>
-                      {visibleSections.perf && (
-                        <div style={{ marginTop: '1rem' }}>
-                          <p style={{ fontWeight: 700 }}>{getDomSubNum()}{renderStatic('perfTitle')}</p>
-                          <p>{renderStatic('perfText1')}<strong>{formData.name || 'the intern'}</strong>{renderStatic('perfText2')}{getPronouns(formData.gender).possessive}{renderStatic('perfText3')}</p>
+                      <p style={ { fontWeight: 700 } }>{ getDomNum() }{ renderStatic('posTitle') }</p>
+                      <p>{ renderStatic('posText1') }<strong>{ formData.position }</strong>{ renderStatic('posText2') }</p>
+                      { visibleSections.perf && (
+                        <div style={ { marginTop: '1rem' } }>
+                          <p style={ { fontWeight: 700 } }>{getDomNum() }{ renderStatic('perfTitle') }</p>
+                          <p>{ renderStatic('perfText1') }<strong>{ formData.name || 'the intern' }</strong>{ renderStatic('perfText2') }{ getPronouns(formData.gender).possessive }{ renderStatic('perfText3') }</p>
                         </div>
-                      )}
+                      ) }
                     </>
-                  ))}
-                  
-                  {renderSectionWrapper('stipend', () => (
+                  )) }
+
+                  { renderSectionWrapper('stipend', () => (
                     <>
-                      <p style={{ fontWeight: 700 }}>{getDomNum()}{renderStatic('stipendTitle')}</p>
-                      <p>{renderStatic('stipendText1')}<strong>{formData.stipend}</strong>.</p>
+                      <p style={ { fontWeight: 700 } }>{ getDomNum() }{ renderStatic('stipendTitle') }</p>
+                      <p>{ renderStatic('stipendText1') }<strong>{ formData.stipend }</strong>.</p>
                     </>
-                  ))}
-                  
-                  {renderSectionWrapper('mentor', () => (
+                  )) }
+
+                  { renderSectionWrapper('mentor', () => (
                     <>
-                      <p style={{ fontWeight: 700 }}>{getDomNum()}{renderStatic('mentorTitle')}</p>
-                      <p>{renderStatic('mentorText1')}<strong>{formData.mentorName}</strong> ({formData.mentorContact}).</p>
+                      <p style={ { fontWeight: 700 } }>{ getDomNum() }{ renderStatic('mentorTitle') }</p>
+                      <p>{ renderStatic('mentorText1') }<strong>{ formData.mentorName }</strong> </p>
                     </>
-                  ))}
-                  
-                  {renderSectionWrapper('work', () => (
+                  )) }
+
+                  { renderSectionWrapper('work', () => (
                     <>
-                      <p style={{ fontWeight: 700 }}>{getDomNum()}{renderStatic('workTitle')}</p>
-                      <p>{renderStatic('workText1')}</p>
+                      <p style={ { fontWeight: 700 } }>{ getDomNum() }{ renderStatic('workTitle') }</p>
+                      <p>{ renderStatic('workText1') }</p>
                     </>
-                  ))}
-                  
-                  {renderSectionWrapper('place', () => (
+                  )) }
+
+                  { renderSectionWrapper('place', () => (
                     <>
-                      <p style={{ fontWeight: 700 }}>{getDomNum()}{renderStatic('placeTitle')}</p>
-                      <p>{renderStatic('placeText1')}</p>
+                      <p style={ { fontWeight: 700 } }>{ getDomNum() }{ renderStatic('placeTitle') }</p>
+                      <p>{ renderStatic('placeText1') }</p>
                     </>
-                  ))}
-                  
-                  {renderSectionWrapper('terms', () => (
+                  )) }
+
+                  { renderSectionWrapper('terms', () => (
                     <>
-                      <p style={{ fontWeight: 700 }}>{getDomNum()}{renderStatic('termsTitle')}</p>
-                      <ul style={{ paddingLeft: '1.25rem', marginTop: '0.5rem' }}>
-                        {formData.termsAndConditions.filter(t => t.trim() !== '').map((term, index) => <li key={index}>{term}</li>)}
+                      <p style={ { fontWeight: 700 } }>{ getDomNum() }{ renderStatic('termsTitle') }</p>
+                      <ul style={ { paddingLeft: '1.25rem', marginTop: '0.5rem' } }>
+                        { formData.termsAndConditions.filter(t => t.trim() !== '').map((term, index) => <li key={ index }>{ term }</li>) }
                       </ul>
                     </>
-                  ))}
+                  )) }
                 </div>
-                
-                <p style={{ marginTop: '1.5rem' }}>{renderStatic('outro')}</p>
-                <div style={{ marginTop: '2rem' }}>
-                  <p style={{ fontWeight: 700 }}>{renderStatic('regards')}</p>
-                  <p style={{ marginTop: '0.5rem' }}>{getSignatoryDetails(formData.signatory).name}</p>
-                  <p>{getSignatoryDetails(formData.signatory).title}</p>
+
+                <p style={ { marginTop: '1.5rem' } }>{ renderStatic('outro') }</p>
+                <div style={ { marginTop: '2rem' } }>
+                  <p style={ { fontWeight: 700 } }>{ renderStatic('regards') }</p>
+                  <p style={ { marginTop: '0.5rem' } }>{ getSignatoryDetails(formData.signatory).name }</p>
+                  <p>{ getSignatoryDetails(formData.signatory).title }</p>
                 </div>
-                <div style={{ marginTop: '2.5rem', borderTop: '1px solid #ddd', paddingTop: '1rem' }}>
-                  <p style={{ fontWeight: 700 }}>{renderStatic('ackTitle')}</p>
-                  <p>{renderStatic('ackText')}<strong>{formData.name}</strong>{renderStatic('ackText2')}</p>
-                  <div style={{ marginTop: '1.5rem', display: 'flex', gap: '3rem' }}>
+                <div style={ { marginTop: '2.5rem', borderTop: '1px solid #ddd', paddingTop: '1rem' } }>
+                  <p style={ { fontWeight: 700 } }>{ renderStatic('ackTitle') }</p>
+                  <p>{ renderStatic('ackText') }<strong>{ formData.name }</strong>{ renderStatic('ackText2') }</p>
+                  <div style={ { marginTop: '1.5rem', display: 'flex', gap: '3rem' } }>
                     <p>Signature: ___________________</p>
                     <p>Date: ________________</p>
                   </div>
@@ -725,7 +726,7 @@ const InternshipOfferLetter = () => {
             </div>
           </div>
         </div>
-      )}
+      ) }
     </div>
   );
 };
