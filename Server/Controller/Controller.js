@@ -63,8 +63,58 @@ const saveInternshipOffer = async (req, res) => {
 // Get all offer letters data
 const getOfferLetters = async (req, res) => {
   try {
-    const [results] = await db.query('SELECT * FROM offer_letters');
-    res.status(200).json(results);
+    const page = req.query.page ? parseInt(req.query.page) : null;
+    const limit = req.query.limit ? parseInt(req.query.limit) : null;
+    const search = req.query.search || '';
+    const startDate = req.query.startDate || '';
+    const endDate = req.query.endDate || '';
+    const designation = req.query.designation || '';
+
+    let whereClauses = [];
+    let params = [];
+
+    if (search) {
+      whereClauses.push('(name LIKE ? OR email LIKE ? OR phoneNumber LIKE ? OR designation LIKE ?)');
+      const searchWildcard = `%${search}%`;
+      params.push(searchWildcard, searchWildcard, searchWildcard, searchWildcard);
+    }
+
+    if (startDate) {
+      whereClauses.push('createdAt >= ?');
+      params.push(`${startDate} 00:00:00`);
+    }
+
+    if (endDate) {
+      whereClauses.push('createdAt <= ?');
+      params.push(`${endDate} 23:59:59`);
+    }
+
+    if (designation) {
+      whereClauses.push('designation = ?');
+      params.push(designation);
+    }
+
+    const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
+
+    if (page && limit) {
+      const offset = (page - 1) * limit;
+      const countQuery = `SELECT COUNT(*) as total FROM offer_letters ${whereSql}`;
+      const [[{ total }]] = await db.query(countQuery, params);
+      const selectQuery = `SELECT * FROM offer_letters ${whereSql} ORDER BY createdAt DESC LIMIT ? OFFSET ?`;
+      const [rows] = await db.query(selectQuery, [...params, limit, offset]);
+
+      res.status(200).json({
+        data: rows,
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalItems: total,
+        limit: limit
+      });
+    } else {
+      const selectQuery = `SELECT * FROM offer_letters ${whereSql} ORDER BY createdAt DESC`;
+      const [results] = await db.query(selectQuery, params);
+      res.status(200).json(results);
+    }
   } catch (error) {
     console.error('Failed to fetch offer letters:', error);
     res.status(500).send('Failed to fetch offer letters');

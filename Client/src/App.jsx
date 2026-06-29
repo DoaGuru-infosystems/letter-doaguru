@@ -81,6 +81,7 @@ const App = () =>{
       <Route path="/Relieving-Letter-Genrate" element={<RelievingLetter/>} />
       <Route path="/Termination-Letter-Genrate" element={<TerminationLetter/>} />
       <Route path="/OfferLetter" element={<ViewOfferLettersPage/>} />
+      <Route path="/report" element={<ViewOfferLettersPage/>} />
       <Route path="/download/offer-letter" element={<DownloadOfferLetter/>} />
       <Route path="/warning-letter-genrate" element={<WarningLetter/>} />
       <Route path="/salary-slip" element={<SalarySlip/>} />

@@ -2,8 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config()
 const router = require('./Routes/routes');
-
-
+const loggerMiddleware = require('./utils/logger');
 
 const app = express();
 const port = process.env.PORT || 8000
@@ -14,6 +13,7 @@ const port = process.env.PORT || 8000
 app.use(express.json());
 
 app.use(cors());
+app.use(loggerMiddleware);
 app.use(router)
 
 app.listen(port, () => {

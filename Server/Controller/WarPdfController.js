@@ -61,7 +61,11 @@ const loadImage = async (filePath) => {
 const saveWarningLetter = async (req, res) => {
   const { name, date , warningDetails, letter } = req.body;
 
-  const pdfPath = path.join(__dirname, 'upload', `${name}_warning_letter.pdf`);
+  const uploadDir = path.join(__dirname, 'upload');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+  const pdfPath = path.join(uploadDir, `${name}_warning_letter.pdf`);
 
   try {
     const pdfDoc = await PDFDocument.create();
