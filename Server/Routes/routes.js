@@ -27,7 +27,7 @@ router.put('/api/updateOfferLetter/:id', updateOfferLetter);
 router.post('/api/saveInternshipOffer', saveInternshipOffer);
 router.get('/api/offer-letters', getOfferLetters);
 router.get('/api/offer-letters/:id', getOfferLetterById);
-router.get('/api/download-pdf/:filename', downloadPdf); 
+router.get('/api/download-pdf/:id', downloadPdf); 
 
 // New Experience Letter Routes
 router.post('/api/saveEmployee', employeeController.saveEmployee); 
@@ -54,5 +54,6 @@ router.get('/api/salary-slips', letterDownloadController.getSalarySlips);
 
 router.get('/api/internship-offers', letterDownloadController.getInternshipOffers);
 router.get('/api/experience-letters', letterDownloadController.getExperienceLetters);
+router.delete('/api/experience-letters/:id', letterDownloadController.deleteExperienceLetter);
 
 module.exports = router;

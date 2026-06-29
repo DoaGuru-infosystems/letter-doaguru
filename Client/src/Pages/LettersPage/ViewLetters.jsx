@@ -73,7 +73,7 @@ const ViewOfferLettersPage = () => {
               <span className="inline-flex items-center gap-2 text-xs font-semibold text-primary-light bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">
                 {getFilterLabel()}
                 <button
-                  onClick={() => navigate('/download/offer-letter')}
+                  onClick={() => navigate('/report')}
                   className="bg-transparent border-none cursor-pointer text-primary-light hover:text-white transition-colors p-0 flex items-center">
                   <X size={13} />
                 </button>

@@ -46,26 +46,26 @@ function HomePage() {
       Icon: FileText, iconColor: "#38bdf8", iconRing: "rgba(56,189,248,0.12)",
       number: loading ? "..." : offerLetters.length,
       label: "Total Generated Letters", change: "All time records",
-      href: "/download/offer-letter?filter=all",
+      href: "/report?filter=all",
     },
     {
       Icon: Users, iconColor: "#818cf8", iconRing: "rgba(129,140,248,0.12)",
       number: thisMonth,
       label: "Generated This Month",
       change: new Date().toLocaleString("en-IN", { month: "long", year: "numeric" }),
-      href: "/download/offer-letter?filter=this-month",
+      href: "/report?filter=this-month",
     },
     {
       Icon: BarChart2, iconColor: "#34d399", iconRing: "rgba(52,211,153,0.12)",
       number: loading ? "..." : offerLetters.filter((l) => l.designation).length,
       label: "With Designation Set", change: "Of total letters",
-      href: "/download/offer-letter?filter=designation",
+      href: "/report?filter=designation",
     },
     {
       Icon: Clock, iconColor: "#fbbf24", iconRing: "rgba(251,191,36,0.12)",
       number: recent7Days,
       label: "Recent Generations", change: "Last 7 days",
-      href: "/download/offer-letter?filter=recent",
+      href: "/report?filter=recent",
     },
   ];
 
